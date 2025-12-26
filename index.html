@@ -1,188 +1,102 @@
-const translations = {
-    en: { search: "Search pet...", demand: "Demand", normal: "Normal", golden: "Golden", rainbow: "Rainbow", updated: "Updated" },
-    pl: { search: "Szukaj peta...", demand: "Popyt", normal: "Normalny", golden: "Złoty", rainbow: "Tęczowy", updated: "Aktualizacja" },
-    fr: { search: "Rechercher...", demand: "Demande", normal: "Normal", golden: "Doré", rainbow: "Arc-en-ciel", updated: "Mis à jour" },
-    es: { search: "Buscar...", demand: "Demanda", normal: "Normal", golden: "Dorado", rainbow: "Arcoíris", updated: "Actualizado" },
-    de: { search: "Suche...", demand: "Nachfrage", normal: "Normal", golden: "Golden", rainbow: "Regenbogen", updated: "Aktualisiert" }
-};
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmo Values - The Best Tap Sim Value</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --glass: rgba(15, 23, 42, 0.9); --border: rgba(59, 130, 246, 0.2); }
+        body { background: radial-gradient(circle at top, #0f172a 0%, #020617 100%); color: white; font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        .glass { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--border); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .pet-card:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+        .tab-btn.active { background: #2563eb !important; color: white !important; border-color: #3b82f6 !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
 
-const INITIAL_DATA = [
-    { name: "Krampus", category: "Percentage", demand: "8/10", val: "2,300", valG: "7,500", valR: "8,000", img: "images/Krampus.png", updated: "12/26/2025" },
-    { name: "Evil Snowman", category: "Secrets", demand: "8/10", val: "120", valG: "550", valR: "700", img: "images/Evil Snowman.png", updated: "12/26/2025" },
-    { name: "Gilded Seraphim", category: "Legendary", demand: "10/10", val: "1,350", valG: "O/C", valR: "O/C", img: "images/Gilded Seraphim.png", updated: "12/26/2025" },
-    { name: "Ornament", category: "Mythical", demand: "8/10", val: "0.2", valG: "0.4", valR: "0.7", img: "images/Ornament.png", updated: "12/26/2025" },
-    { name: "Nutcracker", category: "Secrets", demand: "10/10", val: "4", valG: "8", valR: "13", img: "images/Nutcracker.png", updated: "12/26/2025" },
-    { name: "Frost Spirit", category: "Secrets", demand: "8/10", val: "75", valG: "180", valR: "215", img: "images/Frost Spirit.png", updated: "12/26/2025" },
-    { name: "Christmas Tree", category: "Mythical", demand: "8/10", val: "175", valG: "365", valR: "410", img: "images/Christmas Tree.png", updated: "12/26/2025" },
-    { name: "Sharkie", category: "Limited", demand: "4/10", val: "4", valG: "8", valR: "12", img: "images/Sharkie.png", updated: "12/26/2025" },
-    { name: "5m Frost Monarch", category: "Limited", demand: "5/10", val: "1,350", valG: "4,900", valR: "5,100", img: "images/5m Frost Monarch.png", updated: "12/26/2025" },
-    { name: "5m North Star", category: "Mythical", demand: "4/10", val: "200", valG: "450", valR: "550", img: "images/5m North Star.png", updated: "12/26/2025" },
-    { name: "Archangel", category: "Mythical", demand: "0/10", val: "1", valG: "2", valR: "4", img: "images/Archangel.png", updated: "12/25/2025" },
-    { name: "BubbleGum Chaos", category: "Secrets", demand: "2/10", val: "0.1", valG: "0.2", valR: "0.5", img: "images/BubbleGum Chaos.png", updated: "12/25/2025" },
-    { name: "Candy God", category: "Secrets", demand: "3/10", val: "55", valG: "125", valR: "220", img: "images/Candy God.png", updated: "12/26/2025" },
-    { name: "Chocolate Marauder", category: "Percentage", demand: "3/10", val: "340", valG: "560", valR: "780", img: "images/Chocolate Marauder.png", updated: "12/26/2025" },
-    { name: "Chronos", category: "Leaderboard", demand: "8/10", val: "9,500", valG: "32,500", valR: "35,000", img: "images/Chronos.png", updated: "12/26/2025" },
-    { name: "Divine Celestia", category: "Secrets", demand: "10/10", val: "12,000", valG: "50,000", valR: "52,000", img: "images/Divine Celestia.png", updated: "12/26/2025" },
-    { name: "Divine Dragon", category: "Secrets", demand: "3/10", val: "30", valG: "75", valR: "90", img: "images/Divine Dragon.png", updated: "12/26/2025" },
-    { name: "Frost Queen", category: "Limited", demand: "4/10", val: "65", valG: "85", valR: "100", img: "images/Frost Queen.png", updated: "12/26/2025" },
-    { name: "Frosty Snowman", category: "Limited", demand: "9/10", val: "180", valG: "700", valR: "810", img: "images/Frosty Snowman.png", updated: "12/26/2025" },
-    { name: "Gingerbread Dragon", category: "Percentage", demand: "4/10", val: "2", valG: "4", valR: "7.5", img: "images/Gingerbread Dragon.png", updated: "12/26/2025" },
-    { name: "Kairos", category: "Mythical", demand: "6/10", val: "115", valG: "180", valR: "240", img: "images/Kairos.png", updated: "12/26/2025" },
-    { name: "King Emblazed", category: "Secrets", demand: "1/10", val: "0.1", valG: "0.2", valR: "0.3", img: "images/King Emblazed.png", updated: "12/26/2025" },
-    { name: "King Kraken", category: "Secrets", demand: "6/10", val: "400", valG: "2,250", valR: "2,450", img: "images/King Kraken.png", updated: "12/26/2025" },
-    { name: "Magmasaur", category: "Secrets", demand: "4/10", val: "50", valG: "95", valR: "125", img: "images/Magmasaur.png", updated: "12/26/2025" },
-    { name: "Orca Dominator", category: "Percentage", demand: "4/10", val: "55", valG: "150", valR: "165", img: "images/Orca Dominator.png", updated: "12/26/2025" },
-    { name: "Paradox", category: "Secrets", demand: "7/10", val: "170", valG: "450", valR: "550", img: "images/Paradox.png", updated: "12/26/2025" },
-    { name: "Raging Claw", category: "Secrets", demand: "2/10", val: "70", valG: "230", valR: "270", img: "images/Raging Claw.png", updated: "12/26/2025" },
-    { name: "Sakura Dominator", category: "Mythical", demand: "3/10", val: "75", valG: "170", valR: "200", img: "images/Sakura Dominator.png", updated: "12/26/2025" },
-    { name: "Sakura Queen", category: "Mythical", demand: "0/10", val: "0.1", valG: "0.25", valR: "0.3", img: "images/Sakura Queen.png", updated: "12/26/2025" },
-    { name: "Samureye", category: "Leaderboard", demand: "0/10", val: "0.1", valG: "0.2", valR: "0.25", img: "images/Samureye.png", updated: "12/26/2025" },
-    { name: "Silver Emperor", category: "Percentage", demand: "8/10", val: "1,050", valG: "2,750", valR: "3,050", img: "images/Silver Emperor.png", updated: "12/26/2025" },
-    { name: "Social Dragon", category: "Leaderboard", demand: "5/10", val: "14", valG: "55", valR: "85", img: "images/Social Dragon.png", updated: "12/26/2025" },
-    { name: "Trophy Guardian", category: "Secrets", demand: "8/10", val: "550", valG: "1,950", valR: "2,050", img: "images/Trophy Guardian.png", updated: "12/26/2025" },
-    { name: "Weeping Angel", category: "Secrets", demand: "2/10", val: "45", valG: "95", valR: "115", img: "images/Weeping Angel.png", updated: "12/26/2025" }
-];
-
-let currentLang = 'en';
-let currentCategory = 'Home';
-let calcItems = [];
-let pets = INITIAL_DATA;
-
-const parseVal = (v) => {
-    if (!v || v.toString() === "O/C") return 0;
-    return parseFloat(v.toString().replace(/,/g, '')) || 0;
-};
-
-const formatVal = (v) => {
-    if (v >= 1000000) return (v / 1000000).toFixed(2) + "M";
-    if (v >= 1000) return (v / 1000).toFixed(1) + "K";
-    return v.toLocaleString();
-};
-
-function changeLanguage() {
-    currentLang = document.getElementById('langSelect').value;
-    document.getElementById('search').placeholder = translations[currentLang].search;
-    render();
-}
-
-function setCategory(cat) {
-    currentCategory = cat;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.innerText.includes(cat)));
-    render();
-}
-
-function render() {
-    const grid = document.getElementById('petGrid');
-    const search = document.getElementById('search').value.toLowerCase();
-    const sort = document.getElementById('sortOrder').value;
-    const t = translations[currentLang];
-    grid.innerHTML = "";
-
-    let filtered = pets.filter(p => {
-        const matchesSearch = p.name.toLowerCase().includes(search);
-        const matchesCat = (currentCategory === 'Home' || p.category === currentCategory);
-        return matchesSearch && matchesCat;
-    });
-
-    if (sort === "valHigh") filtered.sort((a, b) => parseVal(b.val) - parseVal(a.val));
-    if (sort === "valLow") filtered.sort((a, b) => parseVal(a.val) - parseVal(b.val));
-    if (sort === "demandHigh") filtered.sort((a, b) => parseInt(b.demand) - parseInt(a.demand));
-
-    filtered.forEach(p => {
-        const n = parseVal(p.val);
-        const g = n >= 999999 ? p.val : (n * 5).toLocaleString();
-        const r = n >= 999999 ? p.val : (n * 25).toLocaleString();
-
-        grid.innerHTML += `
-            <div class="glass p-5 rounded-2xl pet-card flex flex-col transition border-t-2 border-blue-500/50">
-                <div class="h-32 flex items-center justify-center bg-blue-900/10 rounded-xl mb-4 p-2 relative">
-                    <img src="${p.img}" class="max-h-full drop-shadow-2xl" onerror="this.src='https://via.placeholder.com/100?text=PET'">
-                    <span class="absolute top-2 right-2 text-[8px] bg-blue-600/30 px-2 py-0.5 rounded text-blue-300 font-bold uppercase tracking-widest">${p.category}</span>
+    <header class="max-w-7xl mx-auto mb-10">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+            <div>
+                <h1 class="orbitron text-4xl font-bold text-blue-500 tracking-tighter uppercase italic">Cosmo <span class="text-white">Values</span></h1>
+                <p class="text-blue-400/60 text-[10px] tracking-[0.4em] uppercase mt-1 font-bold italic text-center md:text-left">The Best Tap Sim Value</p>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-3">
+                <div class="flex items-center gap-2 glass px-4 py-2 rounded-2xl">
+                    <span class="text-[10px] font-bold text-blue-400 uppercase">Lang:</span>
+                    <select id="langSelect" onchange="changeLanguage()" class="bg-transparent text-xs font-bold outline-none cursor-pointer">
+                        <option value="en" selected>EN 🇺🇸</option>
+                        <option value="pl">PL 🇵🇱</option>
+                    </select>
                 </div>
-                <h3 class="orbitron text-md font-bold text-white mb-1">${p.name}</h3>
-                <div class="text-[9px] text-slate-400 font-bold mb-4 uppercase tracking-wider">${t.demand}: <span class="text-blue-400">${p.demand}</span></div>
+                <div class="glass px-4 py-2 rounded-2xl flex items-center gap-2 border-green-500/30">
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]"></div>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-green-400"><span id="userCount">16</span> ONLINE</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass p-3 rounded-3xl flex flex-col md:flex-row gap-3 items-center shadow-2xl">
+            <input type="text" id="search" oninput="render()" class="w-full md:flex-1 bg-slate-950/50 p-4 rounded-2xl outline-none focus:ring-1 ring-blue-500 transition border border-white/5">
+            <select id="sortOrder" onchange="render()" class="w-full md:w-64 bg-slate-950/50 p-4 rounded-2xl outline-none cursor-pointer font-bold text-sm border border-white/5">
+                <option value="valHigh" data-t="sortHigh">Value: High to Low</option>
+                <option value="valLow" data-t="sortLow">Value: Low to High</option>
+            </select>
+        </div>
+    </header>
+
+    <nav class="max-w-7xl mx-auto mb-10 flex flex-wrap items-center gap-4">
+        <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar flex-1">
+            <button onclick="setCategory('Home')" class="tab-btn active glass px-6 py-3 rounded-2xl text-xs font-bold uppercase whitespace-nowrap">Home</button>
+            <button onclick="setCategory('Secrets')" class="tab-btn glass px-6 py-3 rounded-2xl text-xs font-bold uppercase whitespace-nowrap text-purple-400">Secrets</button>
+            <button onclick="setCategory('Percentage')" class="tab-btn glass px-6 py-3 rounded-2xl text-xs font-bold uppercase whitespace-nowrap text-green-400">Percentage</button>
+            <button onclick="setCategory('Limited')" class="tab-btn glass px-6 py-3 rounded-2xl text-xs font-bold uppercase whitespace-nowrap text-yellow-400">Limited</button>
+            <button onclick="setCategory('Mythical')" class="tab-btn glass px-6 py-3 rounded-2xl text-xs font-bold uppercase whitespace-nowrap text-pink-400">Mythical</button>
+            <button onclick="setCategory('Leaderboard')" class="tab-btn glass px-6 py-3 rounded-2xl text-xs font-bold uppercase whitespace-nowrap text-blue-400">Leaderboard</button>
+        </div>
+        <a href="https://discord.gg/abFueQHerJ" target="_blank" class="bg-[#5865F2] hover:bg-[#4752C4] px-6 py-3 rounded-2xl text-xs font-bold uppercase transition shadow-lg shadow-blue-500/20">Discord</a>
+    </nav>
+
+    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div id="petGrid" class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+        
+        <aside class="lg:col-span-1">
+            <div id="calculator" class="glass rounded-3xl p-5 sticky top-8 border-b-4 border-blue-500 shadow-2xl">
+                <h2 data-t="calcTitle" class="orbitron text-center text-sm font-bold mb-4 tracking-widest text-blue-400 italic uppercase">Trade Calculator</h2>
                 
-                <div class="space-y-2 mb-4">
-                    <button onclick="addToCalc('${p.name}', '${p.val}', 'Normal')" class="w-full flex justify-between items-center bg-white/5 p-2 rounded-lg hover:bg-blue-600/20 transition group border border-transparent hover:border-blue-500/50">
-                        <span class="text-[10px] text-slate-400 uppercase flex items-center gap-1">
-                            <span class="text-blue-500 font-bold text-lg">+</span> ${t.normal}
-                        </span>
-                        <span class="text-sm font-bold text-white group-hover:text-blue-400">${p.val}</span>
-                    </button>
-
-                    <button onclick="addToCalc('${p.name}', '${g}', 'Golden')" class="w-full flex justify-between items-center bg-white/5 p-2 rounded-lg hover:bg-yellow-600/20 transition group border border-transparent hover:border-yellow-500/50 text-yellow-500">
-                        <span class="text-[10px] uppercase opacity-70 italic flex items-center gap-1">
-                            <span class="text-yellow-500 font-bold text-lg">+</span> ${t.golden}
-                        </span>
-                        <span class="text-sm font-bold group-hover:text-yellow-400">${g}</span>
-                    </button>
-
-                    <button onclick="addToCalc('${p.name}', '${r}', 'Rainbow')" class="w-full flex justify-between items-center bg-white/5 p-2 rounded-lg hover:bg-pink-600/20 transition group border border-transparent hover:border-pink-500/50 text-pink-500">
-                        <span class="text-[10px] uppercase opacity-70 italic flex items-center gap-1">
-                            <span class="text-pink-500 font-bold text-lg">+</span> ${t.rainbow}
-                        </span>
-                        <span class="text-sm font-bold group-hover:text-pink-400">${r}</span>
-                    </button>
+                <div class="mb-4">
+                    <label data-t="addSideLabel" class="text-[9px] uppercase font-bold text-slate-500 block mb-1 text-center italic">Add pets to side:</label>
+                    <select id="sideSwitch" class="w-full bg-slate-950 border border-blue-500/30 rounded-xl p-3 text-xs font-bold outline-none ring-1 ring-blue-500/20">
+                        <option value="them" data-t="sideThem">Their Offer (Left)</option>
+                        <option value="you" data-t="sideYou">Your Offer (Right)</option>
+                    </select>
                 </div>
-                <div class="mt-auto text-[8px] text-slate-600 uppercase font-bold tracking-widest italic font-mono text-center">${t.updated}: ${p.updated}</div>
-            </div>`;
-    });
-}
 
-function addToCalc(name, val, type) {
-    calcItems.push({ name, val, type });
-    updateCalc();
-}
-
-function removeFromCalc(idx) {
-    calcItems.splice(idx, 1);
-    updateCalc();
-}
-
-function clearCalc() {
-    calcItems = [];
-    updateCalc();
-}
-
-function updateCalc() {
-    const list = document.getElementById('calcList');
-    const totalEl = document.getElementById('totalValue');
-    let total = 0;
-
-    if (calcItems.length === 0) {
-        list.innerHTML = `<p class="text-slate-500 text-xs text-center py-4 italic">Calculator is empty.</p>`;
-        totalEl.innerText = "0";
-        return;
-    }
-
-    list.innerHTML = "";
-    calcItems.forEach((item, idx) => {
-        total += parseVal(item.val);
-        list.innerHTML += `
-            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl text-xs animate-fadeIn border-l-2 ${item.type === 'Golden' ? 'border-yellow-500' : item.type === 'Rainbow' ? 'border-pink-500' : 'border-blue-500'}">
-                <div class="truncate pr-2">
-                    <div class="font-bold text-white">${item.name}</div>
-                    <div class="text-[8px] uppercase opacity-50 font-bold">${item.type}</div>
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="bg-red-500/5 rounded-2xl p-2 border border-red-500/10 text-center">
+                        <p data-t="labelThem" class="text-[9px] font-bold uppercase text-red-500 mb-2">Them</p>
+                        <div id="theirList" class="space-y-2 min-h-[80px] max-h-[250px] overflow-y-auto no-scrollbar"></div>
+                        <div class="mt-2 font-bold text-xs" id="theirTotal">0</div>
+                    </div>
+                    <div class="bg-green-500/5 rounded-2xl p-2 border border-green-500/10 text-center">
+                        <p data-t="labelYou" class="text-[9px] font-bold uppercase text-green-500 mb-2">You</p>
+                        <div id="yourList" class="space-y-2 min-h-[80px] max-h-[250px] overflow-y-auto no-scrollbar"></div>
+                        <div class="mt-2 font-bold text-xs" id="yourTotal">0</div>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="font-bold text-blue-400">${item.val}</span>
-                    <button onclick="removeFromCalc(${idx})" class="text-red-500 hover:text-red-400 text-xl leading-none">&times;</button>
-                </div>
-            </div>`;
-    });
-    totalEl.innerText = formatVal(total);
-}
 
-setInterval(() => {
-    const el = document.getElementById('userCount');
-    if(el) el.innerText = Math.floor(Math.random() * 8) + 14;
-}, 5000);
+                <div id="tradeDiff" data-t="fair" class="text-center font-bold text-sm bg-white/5 py-3 rounded-xl italic mb-3">Fair Trade</div>
+                <button onclick="clearCalc()" data-t="resetBtn" class="w-full text-[9px] bg-red-600/20 hover:bg-red-600 p-2 rounded-xl text-white font-bold uppercase transition">Reset Calculator</button>
+            </div>
+        </aside>
+    </main>
 
-function adminAuth() { if(prompt("Pass:") === "cosmo123") alert("Admin login successful!"); }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const uc = document.getElementById('userCount');
-    if(uc) uc.innerText = "16";
-    render();
-});
-
+    <script src="script.js"></script>
+</body>
+</html>
