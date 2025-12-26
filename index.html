@@ -1,98 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmo Values | Tap Simulator</title>
+    <title>Cosmo Values - Pet Simulator 99</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { background: #05050a; color: #e2e8f0; font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
+        :root {
+            --glass: rgba(15, 23, 42, 0.8);
+            --border: rgba(59, 130, 246, 0.2);
+        }
+        body {
+            background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
         .orbitron { font-family: 'Orbitron', sans-serif; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .pet-card { transition: 0.3s ease; border-top: 3px solid #3b82f6; height: 100%; display: flex; flex-direction: column; }
-        .pet-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2); }
-        .admin-input, select { background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 8px; color: white; width: 100%; outline: none; }
-        .tabs-container { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; display: flex; gap: 8px; padding: 4px; }
-        .tabs-container::-webkit-scrollbar { display: none; }
-        .tab-btn { white-space: nowrap; transition: all 0.3s; border: 1px solid transparent; flex-shrink: 0; }
-        .tab-btn.active { color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); background: rgba(59, 130, 246, 0.1); }
-        
-        .dot { height: 8px; width: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block; margin-right: 6px; box-shadow: 0 0 10px #22c55e; animation: blink 1.5s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-        .hidden { display: none !important; }
-
-        .no-img-box { background: #0f172a; border: 2px dashed #1e293b; color: #3b82f6; font-size: 10px; text-align: center; display: flex; align-items: center; justify-content: center; font-weight: bold; text-transform: uppercase; }
+        .glass {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+        }
+        .pet-card:hover {
+            transform: translateY(-5px);
+            border-top-color: #60a5fa;
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            background: #2563eb;
+            color: white;
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
+        }
+        input, select {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: white;
+        }
     </style>
 </head>
-<body class="p-4 md:p-10">
-    <div id="stars" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 10%, #161633 0%, #05050a 100%);"></div>
+<body class="p-4 md:p-8">
 
-    <div class="fixed top-4 right-4 z-50 glass px-4 py-2 rounded-full border border-green-500/20 flex items-center">
-        <span class="dot"></span>
-        <span class="text-[10px] font-bold uppercase tracking-widest text-green-400"><span id="userCount">...</span> Users Online</span>
-    </div>
-
-    <header class="text-center mb-8">
-        <h1 class="orbitron text-5xl md:text-7xl font-black bg-gradient-to-b from-white to-blue-600 bg-clip-text text-transparent italic">COSMO VALUES</h1>
-    </header>
-
-    <div class="max-w-7xl mx-auto mb-8 glass rounded-2xl p-2 sticky top-4 z-40">
-        <div class="tabs-container">
-            <button onclick="setCategory('Home')" class="tab-btn active px-6 py-3 rounded-xl font-bold uppercase text-sm">🏠 Home</button>
-            <button onclick="setCategory('Legendary')" class="tab-btn px-6 py-3 rounded-xl font-bold uppercase text-sm">⚔️ Legendary</button>
-            <button onclick="setCategory('Mythical')" class="tab-btn px-6 py-3 rounded-xl font-bold uppercase text-sm">✨ Mythical</button>
-            <button onclick="setCategory('Percentage')" class="tab-btn px-6 py-3 rounded-xl font-bold uppercase text-sm">📊 Percentage</button>
-            <button onclick="setCategory('Secrets')" class="tab-btn px-6 py-3 rounded-xl font-bold uppercase text-sm">🔒 Secrets</button>
-            <button onclick="setCategory('Leaderboard')" class="tab-btn px-6 py-3 rounded-xl font-bold uppercase text-sm">🏆 Leaderboard</button>
-            <button onclick="setCategory('Limited')" class="tab-btn px-6 py-3 rounded-xl font-bold uppercase text-sm">⏰ Limited</button>
-            <a href="https://discord.gg/abFueQHerJ" target="_blank" class="tab-btn px-6 py-3 rounded-xl font-bold uppercase text-sm bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">💬 Our Discord</a>
-        </div>
-    </div>
-
-    <div class="max-w-7xl mx-auto mb-10 flex flex-col md:flex-row gap-4">
-        <input type="text" id="search" placeholder="Search pets..." class="flex-grow bg-slate-900/90 border border-slate-700 rounded-2xl py-4 px-6 text-lg outline-none focus:border-blue-500 text-white">
-        <select id="sortOrder" onchange="render()" class="md:w-64 bg-slate-900 border border-slate-700 rounded-2xl px-4 py-4 font-bold text-blue-400">
-            <option value="none">Sort: Newest</option>
-            <option value="valHigh">Price: High to Low</option>
-            <option value="valLow">Price: Low to High</option>
-            <option value="demandHigh">Demand: High to Low</option>
-            <option value="demandLow">Demand: Low to High</option>
-        </select>
-    </div>
-
-    <div id="adminPanel" class="hidden flex justify-center mb-10 gap-4">
-        <button onclick="openModal()" class="bg-blue-600 px-8 py-3 rounded-xl font-bold uppercase text-sm transition text-white">+ Add New Pet</button>
-        <button onclick="logout()" class="bg-red-500/20 text-red-400 px-6 py-3 rounded-xl font-bold text-sm border border-red-500/30">Logout</button>
-    </div>
-
-    <div id="petGrid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
-
-    <div id="modal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-4">
-        <div class="glass p-8 rounded-3xl max-w-lg w-full border border-white/10 max-h-[90vh] overflow-y-auto">
-            <h2 class="orbitron text-xl mb-6 text-blue-400 uppercase">Pet Editor</h2>
-            <div class="space-y-4 text-left">
-                <div><label class="text-[10px] uppercase text-slate-400 font-bold tracking-widest">Category</label>
-                <select id="pCategory"><option value="Legendary">Legendary</option><option value="Mythical">Mythical</option><option value="Percentage">Percentage</option><option value="Secrets">Secrets</option><option value="Leaderboard">Leaderboard</option><option value="Limited">Limited</option></select></div>
-                <div><label class="text-[10px] uppercase text-slate-400 font-bold">Pet Name</label><input type="text" id="pName" class="admin-input"></div>
-                <div class="grid grid-cols-3 gap-2">
-                    <div><label class="text-[10px] uppercase text-slate-400">Normal</label><input type="text" id="pNormal" class="admin-input"></div>
-                    <div><label class="text-[10px] uppercase text-yellow-500">Golden</label><input type="text" id="pGolden" class="admin-input"></div>
-                    <div><label class="text-[10px] uppercase text-pink-500">Rainbow</label><input type="text" id="pRainbow" class="admin-input"></div>
+    <header class="max-w-7xl mx-auto mb-10">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+            <div>
+                <h1 class="orbitron text-4xl font-bold text-blue-500 tracking-tighter">COSMO <span class="text-white">VALUES</span></h1>
+                <p class="text-slate-400 text-sm italic">Live Tracking & Trading Guide</p>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="flex items-center gap-2 glass px-3 py-2 rounded-xl">
+                    <span class="text-xs font-bold text-blue-400 uppercase">Lang:</span>
+                    <select id="langSelect" onchange="changeLanguage()" class="text-xs outline-none rounded bg-transparent cursor-pointer">
+                        <option value="pl">PL 🇵🇱</option>
+                        <option value="en">EN 🇺🇸</option>
+                        <option value="fr">FR 🇫🇷</option>
+                        <option value="es">ES 🇪🇸</option>
+                        <option value="de">DE 🇩🇪</option>
+                    </select>
                 </div>
-                <div><label class="text-[10px] uppercase text-slate-400 font-bold">Demand (e.g. 10/10)</label><input type="text" id="pDemand" class="admin-input"></div>
-                <div><label class="text-[10px] uppercase text-slate-400 font-bold">Image Name</label><input type="text" id="pImg" class="admin-input"></div>
-                <div class="flex gap-2 pt-4">
-                    <button onclick="save()" class="bg-blue-600 flex-1 py-3 rounded-xl font-bold uppercase text-white">Save Changes</button>
-                    <button onclick="closeModal()" class="bg-slate-700 px-6 py-3 rounded-xl font-bold uppercase text-white">Back</button>
+
+                <div class="glass px-4 py-2 rounded-xl flex items-center gap-3">
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span class="text-xs font-bold uppercase tracking-widest"><span id="userCount">14</span> Online</span>
                 </div>
+
+                <button onclick="adminAuth()" class="glass px-4 py-2 rounded-xl text-xs font-bold hover:bg-white/10 transition">ADMIN</button>
             </div>
         </div>
-    </div>
 
-    <footer class="mt-20 text-center pb-10 opacity-30"><button onclick="adminAuth()" class="text-[10px] uppercase tracking-widest font-bold text-blue-400">Terminal Access</button></footer>
+        <div class="glass p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center">
+            <input type="text" id="search" oninput="render()" placeholder="Szukaj peta..." class="w-full md:flex-1 p-3 rounded-xl outline-none focus:border-blue-500 transition">
+            
+            <select id="sortOrder" onchange="render()" class="w-full md:w-48 p-3 rounded-xl outline-none cursor-pointer">
+                <option value="valHigh">Value: High-Low</option>
+                <option value="valLow">Value: Low-High</option>
+            </select>
+        </div>
+    </header>
+
+    <nav class="max-w-7xl mx-auto mb-8 overflow-x-auto">
+        <div class="flex gap-2 pb-2">
+            <button onclick="setCategory('Home')" class="tab-btn active glass px-6 py-2 rounded-full text-xs font-bold uppercase whitespace-nowrap transition">Home</button>
+            <button onclick="setCategory('Secrets')" class="tab-btn glass px-6 py-2 rounded-full text-xs font-bold uppercase whitespace-nowrap transition">Secrets</button>
+            <button onclick="setCategory('Limited')" class="tab-btn glass px-6 py-2 rounded-full text-xs font-bold uppercase whitespace-nowrap transition">Limited</button>
+            <button onclick="setCategory('Mythical')" class="tab-btn glass px-6 py-2 rounded-full text-xs font-bold uppercase whitespace-nowrap transition">Mythical</button>
+            <button onclick="setCategory('Legendary')" class="tab-btn glass px-6 py-2 rounded-full text-xs font-bold uppercase whitespace-nowrap transition">Legendary</button>
+            <button onclick="setCategory('Percentage')" class="tab-btn glass px-6 py-2 rounded-full text-xs font-bold uppercase whitespace-nowrap transition">Percentage</button>
+            <button onclick="setCategory('Leaderboard')" class="tab-btn glass px-6 py-2 rounded-full text-xs font-bold uppercase whitespace-nowrap transition">Leaderboard</button>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto">
+        <div id="petGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            </div>
+    </main>
+
+    <footer class="max-w-7xl mx-auto mt-20 pb-10 text-center text-slate-500 text-xs border-t border-white/5 pt-10">
+        <p class="orbitron tracking-widest uppercase">&copy; 2025 Cosmo Values - Created for PS99 Community</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
-
 </html>
