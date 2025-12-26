@@ -1,5 +1,13 @@
+const translations = {
+    pl: { search: "Szukaj peta...", demand: "Popyt", normal: "Normalny", golden: "Złoty", rainbow: "Tęczowy", updated: "Aktualizacja", sort: "Sortuj według" },
+    en: { search: "Search pet...", demand: "Demand", normal: "Normal", golden: "Golden", rainbow: "Rainbow", updated: "Updated", sort: "Sort by" },
+    fr: { search: "Rechercher...", demand: "Demande", normal: "Normal", golden: "Doré", rainbow: "Arc-en-ciel", updated: "Mis à jour", sort: "Trier par" },
+    es: { search: "Buscar...", demand: "Demanda", normal: "Normal", golden: "Dorado", rainbow: "Arcoíris", updated: "Actualizado", sort: "Ordenar por" },
+    de: { search: "Suche...", demand: "Nachfrage", normal: "Normal", golden: "Golden", rainbow: "Regenbogen", updated: "Aktualisiert", sort: "Sortieren nach" }
+};
+
 const INITIAL_DATA = [
-    { name: "Krampus", category: "Percentage", demand: "8/10", val: "2,300", valG: "7,500", valR: "8,000", updated: "12/26/2025", img: "images/Krampus.png" },
+    { name: "Krampus", category: "Secrets", demand: "8/10", val: "2,300", valG: "7,500", valR: "8,000", updated: "12/26/2025", img: "images/Krampus.png" },
     { name: "Evil Snowman", category: "Secrets", demand: "8/10", val: "120", valG: "550", valR: "700", updated: "12/26/2025", img: "images/Evil Snowman.png" },
     { name: "Gilded Seraphim", category: "Legendary", demand: "10/10", val: "1,350", valG: "O/C", valR: "O/C", updated: "12/26/2025", img: "images/Gilded Seraphim.png" },
     { name: "Ornament", category: "Mythical", demand: "8/10", val: "0.2", valG: "0.4", valR: "0.7", updated: "12/26/2025", img: "images/Ornament.png" },
@@ -35,41 +43,25 @@ const INITIAL_DATA = [
     { name: "Weeping Angel", category: "Secrets", demand: "2/10", val: "45", valG: "95", valR: "115", updated: "12/26/2025", img: "images/Weeping Angel.png" }
 ];
 
+let currentLang = 'pl';
 let currentCategory = 'Home';
 let pets = JSON.parse(localStorage.getItem('cosmo_db')) || INITIAL_DATA;
 let isAdmin = false;
-let editIdx = null;
 
-function updateLiveCounter() {
-    const el = document.getElementById('userCount');
-    if(el) el.innerText = Math.floor(Math.random() * (28 - 14 + 1)) + 14;
-}
-setInterval(updateLiveCounter, 4000);
-updateLiveCounter();
-
-const parseVal = (v) => {
-    if (!v) return 0;
-    if (v.toString().toUpperCase() === "O/C") return 999999999;
-    return parseFloat(v.toString().replace(/,/g, '')) || 0;
-};
-
-const parseDemand = (d) => {
-    const match = d.toString().match(/(\d+)\/10/);
-    return match ? parseInt(match[1]) : 0;
-};
-
-function setCategory(cat) {
-    currentCategory = cat;
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.includes(cat)));
+function changeLanguage() {
+    currentLang = document.getElementById('langSelect').value;
+    const s = document.getElementById('search');
+    if(s) s.placeholder = translations[currentLang].search;
     render();
 }
 
 function render() {
     const grid = document.getElementById('petGrid');
     if(!grid) return;
-    const searchInput = document.getElementById('search');
-    const search = searchInput ? searchInput.value.toLowerCase() : "";
+    
+    const search = document.getElementById('search').value.toLowerCase();
     const sortOrder = document.getElementById('sortOrder').value;
+    const t = translations[currentLang];
     grid.innerHTML = "";
 
     let filtered = pets.filter(p => {
@@ -80,8 +72,6 @@ function render() {
 
     if (sortOrder === "valHigh") filtered.sort((a, b) => parseVal(b.val) - parseVal(a.val));
     if (sortOrder === "valLow") filtered.sort((a, b) => parseVal(a.val) - parseVal(b.val));
-    if (sortOrder === "demandHigh") filtered.sort((a, b) => parseDemand(b.demand) - parseDemand(a.demand));
-    if (sortOrder === "demandLow") filtered.sort((a, b) => parseDemand(a.demand) - parseDemand(b.demand));
 
     filtered.forEach((p) => {
         const realIdx = pets.indexOf(p);
@@ -89,83 +79,38 @@ function render() {
         let displayG = (p.valG && p.valG !== "") ? p.valG : (n >= 999999 ? p.val : (n * 5).toLocaleString());
         let displayR = (p.valR && p.valR !== "") ? p.valR : (n >= 999999 ? p.val : (n * 25).toLocaleString());
 
-        let imgHTML = "";
-        if (p.img && p.img !== "images/" && p.img.trim() !== "") {
-            imgHTML = `<img src="${p.img}" class="max-h-full drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]" onerror="this.parentElement.innerHTML='<div class=\'no-img-box w-full h-full\'>IMAGE COMING SOON</div>'">`;
-        } else {
-            imgHTML = `<div class="no-img-box w-full h-full">IMAGE COMING SOON</div>`;
-        }
+        let imgHTML = `<img src="${p.img}" class="max-h-full drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]" onerror="this.parentElement.innerHTML='<div class=\'no-img-box\'>IMAGE</div>'">`;
 
         grid.innerHTML += `
             <div class="glass p-6 rounded-2xl pet-card relative border-t-blue-600 border-t-4">
                 <div class="absolute top-2 right-2 text-[8px] bg-blue-600/20 px-2 py-1 rounded text-blue-400 font-bold uppercase tracking-widest">${p.category}</div>
-                <div class="h-32 flex items-center justify-center mb-4 bg-white/5 rounded-xl overflow-hidden p-2">
-                    ${imgHTML}
-                </div>
+                <div class="h-32 flex items-center justify-center mb-4 bg-white/5 rounded-xl overflow-hidden p-2">${imgHTML}</div>
                 <h3 class="orbitron text-lg font-bold text-white mb-1 leading-tight">${p.name}</h3>
-                <div class="text-[10px] text-blue-400 font-bold uppercase mb-4 tracking-tighter italic">Demand: ${p.demand}</div>
+                <div class="text-[10px] text-blue-400 font-bold uppercase mb-4 tracking-tighter italic">${t.demand}: ${p.demand}</div>
                 <div class="space-y-2 border-t border-white/5 pt-4 text-sm mb-4">
-                    <div class="flex justify-between"><span>Normal</span><b class="text-white">${p.val}</b></div>
-                    <div class="flex justify-between"><span class="text-yellow-500 italic">Golden</span><b class="text-yellow-400 font-bold">${displayG}</b></div>
-                    <div class="flex justify-between"><span class="text-pink-500 italic">Rainbow</span><b class="text-pink-400 font-bold">${displayR}</b></div>
+                    <div class="flex justify-between"><span>${t.normal}</span><b class="text-white">${p.val}</b></div>
+                    <div class="flex justify-between"><span class="text-yellow-500 italic">${t.golden}</span><b class="text-yellow-400 font-bold">${displayG}</b></div>
+                    <div class="flex justify-between"><span class="text-pink-500 italic">${t.rainbow}</span><b class="text-pink-400 font-bold">${displayR}</b></div>
                 </div>
-                <div class="mt-auto text-[9px] text-slate-500 uppercase italic tracking-widest">Updated: ${p.updated}</div>
+                <div class="mt-auto text-[9px] text-slate-500 uppercase italic tracking-widest">${t.updated}: ${p.updated}</div>
                 ${isAdmin ? `<div class="mt-4 flex gap-2 pt-4 border-t border-white/10">
-                    <button onclick="openEdit(${realIdx})" class="flex-1 bg-blue-600/30 py-2 rounded-lg text-[10px] font-bold uppercase hover:bg-blue-600/50 transition">Edit</button>
                     <button onclick="del(${realIdx})" class="bg-red-600/30 px-3 py-2 rounded-lg text-[10px] font-bold hover:bg-red-600/50">X</button>
                 </div>` : ''}
             </div>`;
     });
 }
 
-function adminAuth() { if(prompt("Pass:") === "cosmo123") { isAdmin = true; document.getElementById('adminPanel').classList.remove('hidden'); render(); } }
-function logout() { isAdmin = false; document.getElementById('adminPanel').classList.add('hidden'); render(); }
+const parseVal = (v) => {
+    if (!v) return 0;
+    if (v.toString().toUpperCase() === "O/C") return 999999999;
+    return parseFloat(v.toString().replace(/,/g, '')) || 0;
+};
 
-function openModal() {
-    editIdx = null;
-    document.getElementById('pName').value = ""; document.getElementById('pNormal').value = "";
-    document.getElementById('pGolden').value = ""; document.getElementById('pRainbow').value = "";
-    document.getElementById('pDemand').value = ""; document.getElementById('pImg').value = "";
-    document.getElementById('pCategory').value = "Legendary";
-    document.getElementById('modal').classList.remove('hidden');
-}
-
-function openEdit(i) {
-    editIdx = i; const p = pets[i];
-    document.getElementById('pName').value = p.name;
-    document.getElementById('pNormal').value = p.val;
-    document.getElementById('pGolden').value = p.valG;
-    document.getElementById('pRainbow').value = p.valR;
-    document.getElementById('pDemand').value = p.demand;
-    document.getElementById('pCategory').value = p.category;
-    document.getElementById('pImg').value = p.img.replace('images/', '');
-    document.getElementById('modal').classList.remove('hidden');
-}
-
-function save() {
-    let imgName = document.getElementById('pImg').value.trim();
-    let finalImg = imgName === "" ? "" : (imgName.startsWith('http') ? imgName : 'images/' + imgName);
-    const data = {
-        name: document.getElementById('pName').value,
-        category: document.getElementById('pCategory').value,
-        val: document.getElementById('pNormal').value,
-        valG: document.getElementById('pGolden').value,
-        valR: document.getElementById('pRainbow').value,
-        demand: document.getElementById('pDemand').value,
-        img: finalImg,
-        updated: new Date().toLocaleDateString()
-    };
-    if(editIdx !== null) pets[editIdx] = data; else pets.unshift(data);
-    localStorage.setItem('cosmo_db', JSON.stringify(pets));
-    closeModal(); render();
-}
-
-function closeModal() { document.getElementById('modal').classList.add('hidden'); }
-function del(i) { if(confirm("Delete?")) { pets.splice(i,1); localStorage.setItem('cosmo_db', JSON.stringify(pets)); render(); } }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const s = document.getElementById('search');
-    if(s) s.addEventListener('input', render);
+function setCategory(cat) {
+    currentCategory = cat;
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.includes(cat)));
     render();
-});
+}
 
+function adminAuth() { if(prompt("Pass:") === "cosmo123") { isAdmin = true; render(); } }
+function del(i) { if(confirm("Delete?")) { pets.splice(i,1); localStorage.setItem('cosmo_db', JSON.stringify(pets)); render(); } }
