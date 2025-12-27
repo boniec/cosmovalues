@@ -49,7 +49,7 @@ const INITIAL_DATA = [
     { name: "Kairos", category: "Percentage", demand: "Medium 6/10", val: "120", valG: "480", valR: "550", img: "images/Kairos.png", updated: "12/26/2025" },
     { name: "Celestial Candycane", category: "Percentage", demand: "High 8/10", val: "800", valG: "O/C", valR: "O/C", img: "images/Krampus.png", updated: "12/27/2025" },
     { name: "King Emblazed", category: "Mythical", demand: "Very Low 1/10", val: "0.1", valG: "0.2", valR: "0.3", img: "images/King Emblazed.png", updated: "12/26/2025" },
-    { name: "King Kraken", category: "Secrets", demand: "Very Low 2/10", val: "950", valG: "1,000", valR: "2,050", img: "images/King Kraken.png", updated: "12/26/2025" },
+    { name: "King Kraken", category: "Secrets", demand: "Very Low 2/10", val: "190", valG: "1,000", valR: "1,100", img: "images/King Kraken.png", updated: "12/26/2025" },
     { name: "Magmasaur", category: "Secrets", demand: "Low 4/10", val: "50", valG: "95", valR: "125", img: "images/Magmasaur.png", updated: "12/26/2025" },
     { name: "Orca Dominator", category: "Secrets", demand: "Low 4/10", val: "50", valG: "170", valR: "195", img: "images/Orca Dominator.png", updated: "12/26/2025" },
     { name: "Paradox", category: "Percentage", demand: "High 7/10", val: "175", valG: "740", valR: "810", img: "images/Paradox.png", updated: "12/27/2025" },
@@ -162,6 +162,7 @@ function updateCalc() {
 } 
 
 document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); });
+
 
 
 
