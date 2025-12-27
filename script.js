@@ -26,7 +26,7 @@ const translations = {
 const INITIAL_DATA = [
     { name: "Krampus", category: "Percentage", demand: "High 8/10", val: "1,500", valG: "4,850", valR: "5,000", img: "images/Krampus.png", updated: "12/27/2025" },
     { name: "Evil Snowman", category: "Percentage", demand: "High 8/10", val: "105", valG: "420", valR: "450", img: "images/Evil Snowman.png", updated: "12/27/2025" },
-    { name: "Gilded Seraphim", category: "Secrets", demand: "Very High 9/10", val: "1100", valG: "O/C", valR: "O/C", img: "images/Gilded Seraphim.png", updated: "12/27/2025" },
+    { name: "Gilded Seraphim", category: "Secrets", demand: "Very High 9/10", val: "1000", valG: "O/C", valR: "O/C", img: "images/Gilded Seraphim.png", updated: "12/27/2025" },
     { name: "Ornament", category: "Legendary", demand: "Very Low 2/10", val: "0", valG: "0.2", valR: "0.3", img: "images/Ornament.png", updated: "12/27/2025" },
     { name: "Nutcracker", category: "Mythical", demand: "Very Low 3/10", val: "0.2", valG: "0.5", valR: "1", img: "images/Nutcracker.png", updated: "12/27/2025" },
     { name: "UFO Alien", category: "Mythical", demand: "Very High 10/10", val: "1", valG: "4", valR: "7", img: "images/Nutcracker.png", updated: "12/27/2025" },
@@ -162,6 +162,7 @@ function updateCalc() {
 } 
 
 document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); });
+
 
 
 
