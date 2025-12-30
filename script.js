@@ -50,7 +50,7 @@ const INITIAL_DATA = [
     { name: "Orca Dominator", category: "Secrets", demand: "Low 4/10", val: "40", valG: "170", valR: "195", img: "images/Orca Dominator.png", updated: "12/29/2025" },
     { name: "Paradox", category: "Percentage", demand: "High 7/10", val: "190", valG: "720", valR: "740", img: "images/Paradox.png", updated: "12/29/2025" },
     { name: "Raging Claw", category: "Secrets", demand: "Very Low 2/10", val: "45", valG: "200", valR: "210", img: "images/Raging Claw.png", updated: "12/26/2025" },
-    { name: "Hooded Krampus", category: "Percentage", demand: "High 7/10", val: "540", valG: "O/C", valR: "O/C", img: "images/hooded.png", updated: "12/27/2025" },
+    { name: "Hooded Krampus", category: "Percentage", demand: "High 7/10", val: "460", valG: "O/C", valR: "O/C", img: "images/hooded.png", updated: "12/30/2025" },
     { name: "Sakura Dominator", category: "Secrets", demand: "Low 3/10", val: "75", valG: "170", valR: "200", img: "images/Sakura Dominator.png", updated: "12/26/2025" },
     { name: "Sakura Queen", category: "Mythical", demand: "Very Low 0/10", val: "0.1", valG: "0.25", valR: "0.3", img: "images/Sakura Queen.png", updated: "12/26/2025" },
     { name: "Samureye", category: "Mythical", demand: "Very Low 0/10", val: "0.1", valG: "0.2", valR: "0.25", img: "images/Samureye.png", updated: "12/26/2025" },
@@ -158,6 +158,7 @@ function updateCalc() {
 } 
 
 document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); });
+
 
 
 
