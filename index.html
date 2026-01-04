@@ -34,7 +34,14 @@
         .glass { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--border); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .pet-card:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-        .tab-btn.active { background: #2563eb !important; color: white !important; border-color: #3b82f6 !important; }
+        .tab-btn.active[onclick*="Best Sellers"] { background: #ef4444 !important; border-color: #ef4444 !important; color: white !important; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+        .tab-btn.active[onclick*="Secrets"] { background: #a855f7 !important; border-color: #a855f7 !important; color: white !important; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
+        .tab-btn.active[onclick*="Percentage"] { background: #22c55e !important; border-color: #22c55e !important; color: white !important; box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
+        .tab-btn.active[onclick*="Limited"] { background: #eab308 !important; border-color: #eab308 !important; color: white !important; box-shadow: 0 0 15px rgba(234, 179, 8, 0.4); }
+        .tab-btn.active[onclick*="Mythical"] { background: #ec4899 !important; border-color: #ec4899 !important; color: white !important; box-shadow: 0 0 15px rgba(236, 72, 153, 0.4); }
+        .tab-btn.active[onclick*="Leaderboard"] { background: #3b82f6 !important; border-color: #3b82f6 !important; color: white !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+        .tab-btn.active[onclick*="Informations"] { background: #f97316 !important; border-color: #f97316 !important; color: white !important; box-shadow: 0 0 15px rgba(249, 115, 22, 0.4); }
+        .tab-btn.active[onclick*="Mini Games"] { background: #06b6d4 !important; border-color: #06b6d4 !important; color: white !important; box-shadow: 0 0 15px rgba(6, 182, 212, 0.4); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
@@ -55,6 +62,8 @@
                     <select id="langSelect" onchange="changeLanguage()" class="bg-transparent text-xs outline-none cursor-pointer text-white">
                         <option value="en" class="bg-slate-900" selected>EN 🇺🇸</option>
                         <option value="pl" class="bg-slate-900">PL 🇵🇱</option>
+                        <option value="es" class="bg-slate-900">ES 🇪🇸</option>
+                        <option value="de" class="bg-slate-900">DE 🇩🇪</option>
                     </select>
                 </div>
                 <div class="glass px-4 py-2 rounded-2xl flex items-center gap-2 border-green-500/30">
@@ -82,6 +91,7 @@
             <button onclick="setCategory('Mythical')" class="tab-btn glass px-6 py-3 rounded-2xl text-xs uppercase whitespace-nowrap text-pink-400">Mythical</button>
             <button onclick="setCategory('Leaderboard')" class="tab-btn glass px-6 py-3 rounded-2xl text-xs uppercase whitespace-nowrap text-blue-400">Leaderboard</button>
             <button onclick="setCategory('Informations')" class="tab-btn glass px-6 py-3 rounded-2xl text-xs uppercase whitespace-nowrap text-orange-400 border-orange-500/30">Informations</button>
+            <button onclick="setCategory('Mini Games')" class="tab-btn glass px-6 py-3 rounded-2xl text-xs uppercase whitespace-nowrap text-cyan-400 border-cyan-500/30">Mini Games</button>
         </div>
         <a href="https://discord.gg/abFueQHerJ" target="_blank" class="bg-[#5865F2] hover:bg-[#4752C4] px-6 py-3 rounded-2xl text-xs uppercase transition shadow-lg shadow-blue-500/20">Our Discord</a>
     </nav>
@@ -99,7 +109,7 @@
                         </div>
                         <div class="bg-orange-500/10 border border-orange-500/20 px-4 py-2 rounded-xl">
                             <p class="text-[9px] text-orange-500 uppercase mb-1 opacity-60">Last Update</p>
-                            <p class="text-xs text-orange-400 orbitron">Jan 4, 2026 | 5:00 PM</p>
+                            <p class="text-xs text-orange-400 orbitron">Dec 29, 2025 | 1:48 PM</p>
                         </div>
                     </div>
 
@@ -120,9 +130,15 @@
                             <h3 id="term4Title" class="text-blue-400 mb-3 uppercase text-sm italic flex items-center gap-2"></h3>
                             <p id="term4Desc" class="text-xs text-slate-300 leading-relaxed"></p>
                         </div>
+                        <div class="bg-white/5 p-5 rounded-2xl border border-white/10">
+                            <h3 id="term5Title" class="text-blue-400 mb-3 uppercase text-sm italic flex items-center gap-2"></h3>
+                            <p id="term5Desc" class="text-xs text-slate-300 leading-relaxed"></p>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div id="gamePanel" class="hidden glass p-8 rounded-3xl text-center animate-fadeIn relative overflow-hidden"></div>
 
             <div id="petGrid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3"></div>
         </div>
@@ -153,7 +169,7 @@
                 </div>
 
                 <div id="tradeDiff" data-t="fair" class="text-center text-sm bg-white/5 py-3 rounded-xl italic mb-3">Fair Trade</div>
-                <button onclick="clearCalc()" data-t="resetBtn" class="w-full text-[9px] bg-red-600/20 hover:bg-red-600 p-2 rounded-xl text-white uppercase transition">Reset Calculator</button>
+                <button onclick="clearCalc()" data-t="resetBtn" class="w-full text-[9px] bg-red-600/20 hover:bg-red-600 p-2 rounded-xl text-white uppercase transition">Reset</button>
             </div>
         </aside>
     </main>
@@ -172,14 +188,26 @@
                 </svg>
             </div>
             <div class="text-left mr-2">
-                <h3 class="text-sm leading-none mb-1">Giveaway for Tokens</h3>
+                <h3 class="text-sm leading-none mb-1">Giveaway for Tokens 🎁</h3>
                 <p class="text-[9px] text-blue-100 uppercase tracking-wider opacity-90 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></span> Remaining: 1 Day</p>
             </div>
             <div class="bg-white text-[#5865F2] text-[10px] px-3 py-1.5 rounded-lg uppercase group-hover:bg-gray-100 shadow-lg">Join</div>
         </div>
     </a>
 
+    <!-- Scroll to Top Button -->
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" id="scrollTopBtn" class="fixed bottom-6 left-6 z-40 bg-blue-600/80 hover:bg-blue-500 text-white p-3 rounded-full shadow-lg transition-all transform translate-y-20 opacity-0 backdrop-blur-sm border border-white/10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
     <script src="script.js"></script>
 </body>
 </html>
-
