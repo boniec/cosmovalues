@@ -34,6 +34,7 @@ const INITIAL_DATA = [
     { name: "2026 Balloons", category: "Limited", img: "images/2026 Balloons.png", updated: NOW, normal: { val: "120", demand: "7" }, rainbow: { val: "540", demand: "7" } },
     { name: "New Year Dragon", category: "Limited", img: "images/New Year Dragon.png", updated: NOW, normal: { val: "500", demand: "7" }, rainbow: { val: "2,200", demand: "8" } },
     { name: "2026 Overlord", category: "Limited", img: "images/2026 Overlord.png", updated: NOW, normal: { val: "1,300", demand: "8" }, rainbow: { val: "5,850", demand: "9" } },
+    { name: "2026 Star", category: "Percentage", img: "images/2026 Star.png", updated: NOW, normal: { val: "1,300", demand: "9" }, rainbow: { val: "O/C", demand: "10" } },
     { name: "Frost Queen", category: "Secrets", img: "images/Frost Queen.png", updated: NOW, normal: { val: "25", demand: "2" }, rainbow: { val: "115", demand: "3" } },
     { name: "Divine Dragon", category: "Secrets", img: "images/Divine Dragon.png", updated: NOW, normal: { val: "30", demand: "3" }, rainbow: { val: "135", demand: "3" } },
     { name: "Weeping Angel", category: "Secrets", img: "images/Weeping Angel.png", updated: NOW, normal: { val: "35", demand: "3" }, rainbow: { val: "160", demand: "3" } },
@@ -193,4 +194,5 @@ function initOnlineCounter() {
 }
 
 document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); initOnlineCounter(); });
+
 
