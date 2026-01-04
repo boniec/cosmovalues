@@ -68,8 +68,8 @@ const translations = {
 const NOW = Date.now();
 const INITIAL_DATA = [
     { name: "Frosty Snowman", category: "Limited", img: "images/Frosty Snowman.png", updated: NOW, normal: { val: "100", demand: "7" }, rainbow: { val: "450", demand: "8" } },
-    { name: "5M North Star", category: "Limited", img: "images/5M North Star.png", updated: NOW, normal: { val: "280", demand: "8" }, rainbow: { val: "1,300", demand: "8" } },
-    { name: "5M Frost Monarch", category: "Limited", img: "images/5M Frost Monarch.png", updated: NOW, normal: { val: "1,200", demand: "8" }, rainbow: { val: "5,500", demand: "9" } },
+    { name: "5M North Star", category: "Limited", img: "images/5m North Star.png", updated: NOW, normal: { val: "280", demand: "8" }, rainbow: { val: "1,300", demand: "8" } },
+    { name: "5M Frost Monarch", category: "Limited", img: "images/5m Frost Monarch.png", updated: NOW, normal: { val: "1,200", demand: "8" }, rainbow: { val: "5,500", demand: "9" } },
     { name: "Frost Spirit", category: "Limited", img: "images/Frost Spirit.png", updated: NOW, normal: { val: "50", demand: "7" }, rainbow: { val: "230", demand: "7" } },
     { name: "Christmas Tree", category: "Limited", img: "images/Christmas Tree.png", updated: NOW, normal: { val: "140", demand: "7" }, rainbow: { val: "620", demand: "8" } },
     { name: "Gilded Seraphim", category: "Limited", img: "images/Gilded Seraphim.png", updated: NOW, normal: { val: "950", demand: "8" }, rainbow: { val: "4,200", demand: "9" } },
@@ -530,3 +530,4 @@ window.addEventListener('scroll', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); initOnlineCounter(); });
+
