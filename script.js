@@ -82,6 +82,7 @@ const INITIAL_DATA = [
     { name: "Weeping Angel", category: "Secrets", img: "images/Weeping Angel.png", updated: NOW, normal: { val: "35", demand: "3" }, rainbow: { val: "160", demand: "3" } },
     { name: "Sakura Dominator", category: "Secrets", img: "images/Sakura Dominator.png", updated: NOW, normal: { val: "40", demand: "3" }, rainbow: { val: "180", demand: "3" } },
     { name: "Raging Claw", category: "Secrets", img: "images/Raging Claw.png", updated: NOW, normal: { val: "45", demand: "3" }, rainbow: { val: "200", demand: "3" } },
+    { name: "Social Dragon", category: "Percentage", img: "images/Social Dragon.png", updated: NOW, normal: { val: "6", demand: "2" }, rainbow: { val: "30", demand: "5" } },
     { name: "Magmasaur", category: "Secrets", img: "images/Magmasaur.png", updated: NOW, normal: { val: "40", demand: "3" }, rainbow: { val: "180", demand: "3" } },
     { name: "Candy God", category: "Secrets", img: "images/Candy God.png", updated: NOW, normal: { val: "40", demand: "3" }, rainbow: { val: "180", demand: "3" } },
     { name: "Chocolate Marauder", category: "Secrets", img: "images/Chocolate Marauder.png", updated: NOW, normal: { val: "65", demand: "3" }, rainbow: { val: "300", demand: "4" } },
@@ -530,5 +531,6 @@ window.addEventListener('scroll', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); initOnlineCounter(); });
+
 
 
