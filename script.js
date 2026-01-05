@@ -95,7 +95,7 @@ const INITIAL_DATA = [
     { name: "Top 10", category: "Leaderboard", img: "images/Top 10.png", updated: NOW, normal: { val: "11,500", demand: "8" }, rainbow: { val: "O/C", demand: "10" } },
     { name: "Celestial Candycane", category: "Percentage", img: "images/Celestial Candycane.png", updated: NOW, normal: { val: "900", demand: "7" }, rainbow: { val: "4,050", demand: "8" } },
     { name: "Hooded Krampus", category: "Percentage", img: "images/Hooded Krampus.png", updated: NOW, normal: { val: "450", demand: "7" }, rainbow: { val: "2,000", demand: "8" } },
-    { name: "Disco Lord", category: "Percentage", img: "images/Disco Lord.png", updated: NOW, normal: { val: "1,300", demand: "7" }, rainbow: { val: "5,800", demand: "8" } },
+    { name: "Disco Lord", category: "Percentage", img: "images/Disco Lord.png", updated: NOW, normal: { val: "1,150", demand: "7" }, rainbow: { val: "4,800", demand: "8" } },
     { name: "Starshine Warrior", category: "Mythical", img: "images/Starshine Warrior.png", updated: NOW, normal: { val: "2", demand: "7" }, rainbow: { val: "20", demand: "9" } },
     { name: "Kairos", category: "Percentage", img: "images/Kairos.png", updated: NOW, normal: { val: "100", demand: "7" }, rainbow: { val: "350", demand: "7" } },
     { name: "Paradox", category: "Percentage", img: "images/Paradox.png", updated: NOW, normal: { val: "130", demand: "7" }, rainbow: { val: "600", demand: "7" } },
@@ -531,6 +531,7 @@ window.addEventListener('scroll', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); initOnlineCounter(); });
+
 
 
 
