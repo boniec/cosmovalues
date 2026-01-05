@@ -78,7 +78,7 @@ const INITIAL_DATA = [
     { name: "2026 Overlord", category: "Limited", img: "images/2026 Overlord.png", updated: NOW, normal: { val: "1,300", demand: "8" }, rainbow: { val: "5,850", demand: "9" } },
     { name: "Frost Queen", category: "Secrets", img: "images/Frost Queen.png", updated: NOW, normal: { val: "25", demand: "2" }, rainbow: { val: "115", demand: "3" } },
     { name: "Divine Dragon", category: "Secrets", img: "images/Divine Dragon.png", updated: NOW, normal: { val: "30", demand: "3" }, rainbow: { val: "135", demand: "3" } },
-    { name: "2026 Star", category: "Percentage", img: "images/2026 Star.png", updated: NOW, normal: { val: "1,300", demand: "8" }, rainbow: { val: "O/C", demand: "10" } },
+    { name: "2026 Star", category: "Percentage", img: "images/2026 Star.png", updated: NOW, normal: { val: "1,100", demand: "8" }, rainbow: { val: "4,550", demand: "10" } },
     { name: "Weeping Angel", category: "Secrets", img: "images/Weeping Angel.png", updated: NOW, normal: { val: "35", demand: "3" }, rainbow: { val: "160", demand: "3" } },
     { name: "Sakura Dominator", category: "Secrets", img: "images/Sakura Dominator.png", updated: NOW, normal: { val: "40", demand: "3" }, rainbow: { val: "180", demand: "3" } },
     { name: "Raging Claw", category: "Secrets", img: "images/Raging Claw.png", updated: NOW, normal: { val: "45", demand: "3" }, rainbow: { val: "200", demand: "3" } },
@@ -530,4 +530,5 @@ window.addEventListener('scroll', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); initOnlineCounter(); });
+
 
