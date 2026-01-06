@@ -309,9 +309,17 @@ async function saveNickname() {
     }
 
     if(isTaken) { alert(t.nickTaken); return; }
+
     playerName = newName;
     localStorage.setItem('cosmo_player_name', playerName);
     alert(t.saved);
+
+    // ODŚWIEŻ LEADERBOARD i mini games panel
+    const gamePanel = document.getElementById('gamePanel');
+    if(gamePanel && gamePanel.innerHTML.includes('nicknameInput')) {
+        const type = gamePanel.innerHTML.includes('trade') ? 'trade' : 'guess';
+        showGameMenu(type);
+    }
 }
 
 function showMiniGamesSelection() {
@@ -531,6 +539,7 @@ window.addEventListener('scroll', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); initOnlineCounter(); });
+
 
 
 
