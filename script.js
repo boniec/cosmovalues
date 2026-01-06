@@ -272,14 +272,31 @@ async function getLeaderboard(type) {
 async function saveScore(type, score) {
     if (db) {
         try {
-            await db.collection(type).add({ name: playerName, score: score, date: Date.now() });
+            const lbRef = db.collection(type);
+            const q = await lbRef.where('name', '==', playerName).limit(1).get();
+            if (!q.empty) {
+                const doc = q.docs[0];
+                if (score > doc.data().score) {
+                    await lbRef.doc(doc.id).update({ score: score, date: Date.now() });
+                }
+            } else {
+                await lbRef.add({ name: playerName, score: score, date: Date.now() });
+            }
             return;
         } catch (e) { console.error(e); }
     }
-    // Fallback to LocalStorage
+
+    // Fallback na LocalStorage
     const key = `lb_${type}`;
     let data = await getLeaderboard(type);
-    data.push({ name: playerName, score: score });
+    const existingIndex = data.findIndex(p => p.name.toLowerCase() === playerName.toLowerCase());
+
+    if(existingIndex >= 0) {
+        if(score > data[existingIndex].score) data[existingIndex].score = score;
+    } else {
+        data.push({ name: playerName, score: score });
+    }
+
     data.sort((a, b) => b.score - a.score);
     data = data.slice(0, 10);
     localStorage.setItem(key, JSON.stringify(data));
@@ -539,6 +556,7 @@ window.addEventListener('scroll', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); initOnlineCounter(); });
+
 
 
 
