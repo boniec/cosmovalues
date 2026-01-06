@@ -67,43 +67,43 @@ const translations = {
 
 const NOW = Date.now();
 const INITIAL_DATA = [
-    { name: "Frosty Snowman", category: "Limited", img: "images/Frosty Snowman.png", updated: NOW, normal: { val: "100", demand: "7" }, rainbow: { val: "450", demand: "8" } },
-    { name: "5M North Star", category: "Limited", img: "images/5m North Star.png", updated: NOW, normal: { val: "280", demand: "8" }, rainbow: { val: "1,300", demand: "8" } },
-    { name: "5M Frost Monarch", category: "Limited", img: "images/5m Frost Monarch.png", updated: NOW, normal: { val: "1,200", demand: "8" }, rainbow: { val: "5,500", demand: "9" } },
-    { name: "Frost Spirit", category: "Limited", img: "images/Frost Spirit.png", updated: NOW, normal: { val: "50", demand: "7" }, rainbow: { val: "230", demand: "7" } },
-    { name: "Christmas Tree", category: "Limited", img: "images/Christmas Tree.png", updated: NOW, normal: { val: "140", demand: "7" }, rainbow: { val: "620", demand: "8" } },
-    { name: "Gilded Seraphim", category: "Limited", img: "images/Gilded Seraphim.png", updated: NOW, normal: { val: "950", demand: "8" }, rainbow: { val: "4,200", demand: "9" } },
-    { name: "2026 Balloons", category: "Limited", img: "images/2026 Balloons.png", updated: NOW, normal: { val: "120", demand: "7" }, rainbow: { val: "540", demand: "7" } },
-    { name: "New Year Dragon", category: "Limited", img: "images/New Year Dragon.png", updated: NOW, normal: { val: "500", demand: "7" }, rainbow: { val: "2,200", demand: "8" } },
-    { name: "2026 Overlord", category: "Limited", img: "images/2026 Overlord.png", updated: NOW, normal: { val: "1,300", demand: "8" }, rainbow: { val: "5,850", demand: "9" } },
-    { name: "Frost Queen", category: "Secrets", img: "images/Frost Queen.png", updated: NOW, normal: { val: "25", demand: "2" }, rainbow: { val: "115", demand: "3" } },
-    { name: "Divine Dragon", category: "Secrets", img: "images/Divine Dragon.png", updated: NOW, normal: { val: "30", demand: "3" }, rainbow: { val: "135", demand: "3" } },
-    { name: "2026 Star", category: "Percentage", img: "images/2026 Star.png", updated: NOW, normal: { val: "1,100", demand: "8" }, rainbow: { val: "4,550", demand: "10" } },
-    { name: "Weeping Angel", category: "Secrets", img: "images/Weeping Angel.png", updated: NOW, normal: { val: "35", demand: "3" }, rainbow: { val: "160", demand: "3" } },
-    { name: "Sakura Dominator", category: "Secrets", img: "images/Sakura Dominator.png", updated: NOW, normal: { val: "40", demand: "3" }, rainbow: { val: "180", demand: "3" } },
-    { name: "Raging Claw", category: "Secrets", img: "images/Raging Claw.png", updated: NOW, normal: { val: "45", demand: "3" }, rainbow: { val: "200", demand: "3" } },
-    { name: "Social Dragon", category: "Percentage", img: "images/Social Dragon.png", updated: NOW, normal: { val: "6", demand: "2" }, rainbow: { val: "30", demand: "5" } },
-    { name: "Magmasaur", category: "Secrets", img: "images/Magmasaur.png", updated: NOW, normal: { val: "40", demand: "3" }, rainbow: { val: "180", demand: "3" } },
-    { name: "Candy God", category: "Secrets", img: "images/Candy God.png", updated: NOW, normal: { val: "40", demand: "3" }, rainbow: { val: "180", demand: "3" } },
-    { name: "Chocolate Marauder", category: "Secrets", img: "images/Chocolate Marauder.png", updated: NOW, normal: { val: "65", demand: "3" }, rainbow: { val: "300", demand: "4" } },
-    { name: "Orca Dominator", category: "Secrets", img: "images/Orca Dominator.png", updated: NOW, normal: { val: "45", demand: "3" }, rainbow: { val: "200", demand: "4" } },
-    { name: "King Kraken", category: "Secrets", img: "images/King Kraken.png", updated: NOW, normal: { val: "160", demand: "4" }, rainbow: { val: "750", demand: "5" } },
-    { name: "Luminary Star", category: "Secrets", img: "images/Luminary Star.png", updated: NOW, normal: { val: "110", demand: "7" }, rainbow: { val: "500", demand: "8" } },
-    { name: "Cosmic Chaos", category: "Secrets", img: "images/Cosmic Chaos.png", updated: NOW, normal: { val: "500", demand: "8" }, rainbow: { val: "2,250", demand: "8" } },
-    { name: "Top 250", category: "Leaderboard", img: "images/Top 250.png", updated: NOW, normal: { val: "550", demand: "7" }, rainbow: { val: "2,500", demand: "8" } },
-    { name: "Top 100", category: "Leaderboard", img: "images/Top 100.png", updated: NOW, normal: { val: "1,250", demand: "7" }, rainbow: { val: "4,800", demand: "8" } },
-    { name: "Top 10", category: "Leaderboard", img: "images/Top 10.png", updated: NOW, normal: { val: "11,500", demand: "8" }, rainbow: { val: "O/C", demand: "10" } },
-    { name: "Celestial Candycane", category: "Percentage", img: "images/Celestial Candycane.png", updated: NOW, normal: { val: "900", demand: "7" }, rainbow: { val: "4,050", demand: "8" } },
-    { name: "Hooded Krampus", category: "Percentage", img: "images/Hooded Krampus.png", updated: NOW, normal: { val: "450", demand: "7" }, rainbow: { val: "2,000", demand: "8" } },
-    { name: "Disco Lord", category: "Percentage", img: "images/Disco Lord.png", updated: NOW, normal: { val: "1,150", demand: "7" }, rainbow: { val: "4,800", demand: "8" } },
-    { name: "Starshine Warrior", category: "Mythical", img: "images/Starshine Warrior.png", updated: NOW, normal: { val: "2", demand: "7" }, rainbow: { val: "20", demand: "9" } },
-    { name: "Kairos", category: "Percentage", img: "images/Kairos.png", updated: NOW, normal: { val: "100", demand: "7" }, rainbow: { val: "350", demand: "7" } },
-    { name: "Paradox", category: "Percentage", img: "images/Paradox.png", updated: NOW, normal: { val: "130", demand: "7" }, rainbow: { val: "600", demand: "7" } },
-    { name: "Chronos", category: "Percentage", img: "images/Chronos.png", updated: NOW, normal: { val: "9,500", demand: "9" }, rainbow: { val: "O/C", demand: "10" } },
-    { name: "Gift Mimic", category: "Percentage", img: "images/Gift Mimic.png", updated: NOW, normal: { val: "40", demand: "5" }, rainbow: { val: "180", demand: "6" } },
-    { name: "Snow Thief", category: "Percentage", img: "images/Snow Thief.png", updated: NOW, normal: { val: "45", demand: "5" }, rainbow: { val: "200", demand: "6" } },
-    { name: "Evil Snowman", category: "Percentage", img: "images/Evil Snowman.png", updated: NOW, normal: { val: "65", demand: "6" }, rainbow: { val: "300", demand: "7" } },
-    { name: "Krampus", category: "Percentage", img: "images/Krampus.png", updated: NOW, normal: { val: "2,600", demand: "8" }, rainbow: { val: "O/C", demand: "10" } }
+{ name: "Frosty Snowman", category: "Limited", img: "images/Frosty Snowman.png", updated: NOW, normal: { val: "100", demand: "7" }, rainbow: { val: "450", demand: "8" } },
+{ name: "5M North Star", category: "Limited", img: "images/5m North Star.png", updated: NOW, normal: { val: "280", demand: "8" }, rainbow: { val: "1,300", demand: "8" } },
+{ name: "5M Frost Monarch", category: "Limited", img: "images/5m Frost Monarch.png", updated: NOW, normal: { val: "1,150", demand: "8" }, rainbow: { val: "5,000", demand: "9" } },
+{ name: "Frost Spirit", category: "Limited", img: "images/Frost Spirit.png", updated: NOW, normal: { val: "50", demand: "7" }, rainbow: { val: "230", demand: "7" } },
+{ name: "Christmas Tree", category: "Limited", img: "images/Christmas Tree.png", updated: NOW, normal: { val: "140", demand: "7" }, rainbow: { val: "620", demand: "8" } },
+{ name: "Gilded Seraphim", category: "Limited", img: "images/Gilded Seraphim.png", updated: NOW, normal: { val: "950", demand: "8" }, rainbow: { val: "4,200", demand: "9" } },
+{ name: "2026 Balloons", category: "Limited", img: "images/2026 Balloons.png", updated: NOW, normal: { val: "100", demand: "7" }, rainbow: { val: "450", demand: "7" } },
+{ name: "New Year Dragon", category: "Limited", img: "images/New Year Dragon.png", updated: NOW, normal: { val: "450", demand: "7" }, rainbow: { val: "2,000", demand: "8" } },
+{ name: "2026 Overlord", category: "Limited", img: "images/2026 Overlord.png", updated: NOW, normal: { val: "1,200", demand: "8" }, rainbow: { val: "5,400", demand: "9" } },
+{ name: "Frost Queen", category: "Secrets", img: "images/Frost Queen.png", updated: NOW, normal: { val: "25", demand: "2" }, rainbow: { val: "115", demand: "3" } },
+{ name: "Divine Dragon", category: "Secrets", img: "images/Divine Dragon.png", updated: NOW, normal: { val: "30", demand: "3" }, rainbow: { val: "135", demand: "3" } },
+{ name: "2026 Star", category: "Percentage", img: "images/2026 Star.png", updated: NOW, normal: { val: "1,100", demand: "8" }, rainbow: { val: "4,850", demand: "9" } },
+{ name: "Weeping Angel", category: "Secrets", img: "images/Weeping Angel.png", updated: NOW, normal: { val: "35", demand: "3" }, rainbow: { val: "160", demand: "3" } },
+{ name: "Sakura Dominator", category: "Secrets", img: "images/Sakura Dominator.png", updated: NOW, normal: { val: "40", demand: "3" }, rainbow: { val: "180", demand: "3" } },
+{ name: "Raging Claw", category: "Secrets", img: "images/Raging Claw.png", updated: NOW, normal: { val: "45", demand: "3" }, rainbow: { val: "200", demand: "3" } },
+{ name: "Social Dragon", category: "Percentage", img: "images/Social Dragon.png", updated: NOW, normal: { val: "6", demand: "2" }, rainbow: { val: "30", demand: "5" } },
+{ name: "Magmasaur", category: "Secrets", img: "images/Magmasaur.png", updated: NOW, normal: { val: "40", demand: "3" }, rainbow: { val: "180", demand: "3" } },
+{ name: "Candy God", category: "Secrets", img: "images/Candy God.png", updated: NOW, normal: { val: "40", demand: "3" }, rainbow: { val: "180", demand: "3" } },
+{ name: "Chocolate Marauder", category: "Secrets", img: "images/Chocolate Marauder.png", updated: NOW, normal: { val: "65", demand: "3" }, rainbow: { val: "300", demand: "4" } },
+{ name: "Orca Dominator", category: "Secrets", img: "images/Orca Dominator.png", updated: NOW, normal: { val: "45", demand: "3" }, rainbow: { val: "200", demand: "4" } },
+{ name: "King Kraken", category: "Secrets", img: "images/King Kraken.png", updated: NOW, normal: { val: "160", demand: "4" }, rainbow: { val: "750", demand: "5" } },
+{ name: "Luminary Star", category: "Secrets", img: "images/Luminary Star.png", updated: NOW, normal: { val: "110", demand: "7" }, rainbow: { val: "500", demand: "8" } },
+{ name: "Cosmic Chaos", category: "Secrets", img: "images/Cosmic Chaos.png", updated: NOW, normal: { val: "500", demand: "8" }, rainbow: { val: "2,250", demand: "8" } },
+{ name: "Top 250", category: "Leaderboard", img: "images/Top 250.png", updated: NOW, normal: { val: "550", demand: "7" }, rainbow: { val: "2,500", demand: "8" } },
+{ name: "Top 100", category: "Leaderboard", img: "images/Top 100.png", updated: NOW, normal: { val: "1,250", demand: "7" }, rainbow: { val: "4,800", demand: "8" } },
+{ name: "Top 10", category: "Leaderboard", img: "images/Top 10.png", updated: NOW, normal: { val: "12,000", demand: "8" }, rainbow: { val: "O/C", demand: "10" } },
+{ name: "Celestial Candycane", category: "Percentage", img: "images/Celestial Candycane.png", updated: NOW, normal: { val: "850", demand: "8" }, rainbow: { val: "4,050", demand: "9" } },
+{ name: "Hooded Krampus", category: "Percentage", img: "images/Hooded Krampus.png", updated: NOW, normal: { val: "450", demand: "8" }, rainbow: { val: "2,000", demand: "8" } },
+{ name: "Disco Lord", category: "Percentage", img: "images/Disco Lord.png", updated: NOW, normal: { val: "1,400", demand: "8" }, rainbow: { val: "6,300", demand: "9" } },
+{ name: "Starshine Warrior", category: "Mythical", img: "images/Starshine Warrior.png", updated: NOW, normal: { val: "2", demand: "7" }, rainbow: { val: "20", demand: "9" } },
+{ name: "Kairos", category: "Percentage", img: "images/Kairos.png", updated: NOW, normal: { val: "100", demand: "7" }, rainbow: { val: "350", demand: "7" } },
+{ name: "Paradox", category: "Percentage", img: "images/Paradox.png", updated: NOW, normal: { val: "130", demand: "7" }, rainbow: { val: "600", demand: "7" } },
+{ name: "Chronos", category: "Percentage", img: "images/Chronos.png", updated: NOW, normal: { val: "9,500", demand: "9" }, rainbow: { val: "O/C", demand: "10" } },
+{ name: "Gift Mimic", category: "Percentage", img: "images/Gift Mimic.png", updated: NOW, normal: { val: "40", demand: "5" }, rainbow: { val: "180", demand: "6" } },
+{ name: "Snow Thief", category: "Percentage", img: "images/Snow Thief.png", updated: NOW, normal: { val: "45", demand: "5" }, rainbow: { val: "200", demand: "6" } },
+{ name: "Evil Snowman", category: "Percentage", img: "images/Evil Snowman.png", updated: NOW, normal: { val: "65", demand: "6" }, rainbow: { val: "300", demand: "7" } },
+{ name: "Krampus", category: "Percentage", img: "images/Krampus.png", updated: NOW, normal: { val: "2,700", demand: "8" }, rainbow: { val: "O/C", demand: "10" } }
 ];
 
 const MOCK_LB = [
@@ -531,6 +531,7 @@ window.addEventListener('scroll', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); initOnlineCounter(); });
+
 
 
 
