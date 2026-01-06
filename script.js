@@ -13,7 +13,8 @@ const translations = {
         guessTitle: "Guess the Value!", score: "Score", miniGames: "Mini Games",
         tradeTitle: "Trade Simulator", youGive: "You Give", youGet: "You Get", win: "Win", fair: "Fair", loss: "Loss",
         leaderboard: "Leaderboard", play: "Play", nickname: "Nickname", set: "Set", nickTaken: "Nickname already taken!", saved: "Nickname saved!",
-        tradeMode: "Trading Simulator", quizMode: "Quiz about Values"
+        tradeMode: "Trading Simulator", quizMode: "Quiz about Values",
+        loginDiscord: "Login with Discord", logout: "Logout"
     }, 
     pl: { 
         search: "Szukaj peta...", demand: "Dem", normal: "Normalny", rainbow: "Tęczowy", updated: "Ostatnia Akt.",
@@ -29,7 +30,8 @@ const translations = {
         guessTitle: "Zgadnij Wartość!", score: "Wynik", miniGames: "Mini Gry",
         tradeTitle: "Symulator Wymian", youGive: "Dajesz", youGet: "Dostajesz", win: "Win", fair: "Fair", loss: "Loss",
         leaderboard: "Topka", play: "Graj", nickname: "Twój Nick", set: "Ustaw", nickTaken: "Nick jest już zajęty!", saved: "Zapisano nick!",
-        tradeMode: "Symulator Wymian", quizMode: "Quiz o Wartościach"
+        tradeMode: "Symulator Wymian", quizMode: "Quiz o Wartościach",
+        loginDiscord: "Zaloguj przez Discord", logout: "Wyloguj"
     },
     es: { 
         search: "Buscar mascota...", demand: "Dem", normal: "Normal", rainbow: "Arcoíris", updated: "Última Act.",
@@ -45,7 +47,8 @@ const translations = {
         guessTitle: "¡Adivina el Valor!", score: "Puntuación", miniGames: "Minijuegos",
         tradeTitle: "Simulador de Comercio", youGive: "Das", youGet: "Recibes", win: "Ganancia", fair: "Justo", loss: "Pérdida",
         leaderboard: "Clasificación", play: "Jugar", nickname: "Apodo", set: "Fijar", nickTaken: "¡Apodo ya en uso!", saved: "¡Apodo guardado!",
-        tradeMode: "Simulador de Comercio", quizMode: "Cuestionario de Valores"
+        tradeMode: "Simulador de Comercio", quizMode: "Cuestionario de Valores",
+        loginDiscord: "Iniciar sesión con Discord", logout: "Cerrar sesión"
     },
     de: { 
         search: "Suche Haustier...", demand: "Nachfrage", normal: "Normal", rainbow: "Regenbogen", updated: "Letztes Update",
@@ -61,7 +64,8 @@ const translations = {
         guessTitle: "Rate den Wert!", score: "Punktzahl", miniGames: "Minispiele",
         tradeTitle: "Handelssimulator", youGive: "Du gibst", youGet: "Du bekommst", win: "Gewinn", fair: "Fair", loss: "Verlust",
         leaderboard: "Bestenliste", play: "Spielen", nickname: "Spitzname", set: "Setzen", nickTaken: "Spitzname bereits vergeben!", saved: "Spitzname gespeichert!",
-        tradeMode: "Handelssimulator", quizMode: "Werte-Quiz"
+        tradeMode: "Handelssimulator", quizMode: "Werte-Quiz",
+        loginDiscord: "Mit Discord einloggen", logout: "Abmelden"
     }
 };
 
@@ -126,6 +130,50 @@ const firebaseConfig = {
 let db;
 try { if(firebaseConfig.apiKey) { firebase.initializeApp(firebaseConfig); db = firebase.firestore(); if(firebase.analytics) firebase.analytics(); } } catch(e) { console.log("Firebase not setup - using LocalStorage"); }
 // -----------------------------
+
+// DISCORD CONFIG
+const DISCORD_CLIENT_ID = "1457778507143975199";
+const DISCORD_REDIRECT_URI = "https://boniec.github.io/cosmovalues/";
+
+function loginWithDiscord() {
+    const scope = encodeURIComponent("identify");
+    const url = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}&response_type=token&scope=${scope}`;
+    window.location.href = url;
+}
+
+function logoutDiscord() {
+    localStorage.removeItem('discord_token');
+    localStorage.removeItem('discord_user');
+    localStorage.setItem('cosmo_player_name', "Player");
+    location.reload();
+}
+
+async function checkDiscordAuth() {
+    const fragment = new URLSearchParams(window.location.hash.slice(1));
+    const accessToken = fragment.get('access_token');
+    if (accessToken) {
+        localStorage.setItem('discord_token', accessToken);
+        window.location.hash = '';
+        await fetchDiscordUser(accessToken);
+    } else {
+        const savedToken = localStorage.getItem('discord_token');
+        if (savedToken) await fetchDiscordUser(savedToken);
+    }
+}
+
+async function fetchDiscordUser(token) {
+    try {
+        const res = await fetch('https://discord.com/api/users/@me', { headers: { Authorization: `Bearer ${token}` } });
+        if (res.ok) {
+            const data = await res.json();
+            playerName = data.username;
+            localStorage.setItem('cosmo_player_name', playerName);
+            localStorage.setItem('discord_user', JSON.stringify(data));
+        } else {
+            localStorage.removeItem('discord_token');
+        }
+    } catch (e) { console.error(e); }
+}
 
 let currentLang = 'en', currentCategory = 'Best Sellers', yourItems = [], theirItems = [], pets = INITIAL_DATA, gameScore = 0, playerName = localStorage.getItem('cosmo_player_name') || "Player";
 
@@ -342,9 +390,26 @@ async function saveNickname() {
 function showMiniGamesSelection() {
     const t = translations[currentLang];
     const gamePanel = document.getElementById('gamePanel');
+    
+    let nickHtml = '';
+    if(localStorage.getItem('discord_token')) {
+        nickHtml = `<div class="flex flex-col items-center gap-2 mb-8">
+            <div class="text-green-400 font-bold text-lg">Logged as: ${playerName}</div>
+            <button onclick="logoutDiscord()" class="text-red-400 text-xs hover:text-red-300 underline">${t.logout}</button>
+        </div>`;
+    } else {
+        nickHtml = `<div class="flex justify-center mb-8">
+            <button onclick="loginWithDiscord()" class="bg-[#5865F2] hover:bg-[#4752C4] text-white px-6 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 13.48 13.48 0 0 0-1.063 2.192 18.19 18.19 0 0 0-4.57 0 13.48 13.48 0 0 0-1.066-2.192.074.074 0 0 0-.078-.037 19.736 19.736 0 0 0-4.885 1.515.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                ${t.loginDiscord}
+            </button>
+        </div>`;
+    }
+
     gamePanel.innerHTML = `
         <div class="max-w-2xl mx-auto text-center animate-fadeIn">
             <h2 class="orbitron text-3xl text-white mb-8">${t.miniGames}</h2>
+            ${nickHtml}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <button onclick="showGameMenu('trade')" class="glass p-8 rounded-3xl border border-violet-500/30 hover:bg-violet-500/10 hover:scale-105 transition group">
                     <div class="text-4xl mb-4">⚖️</div>
@@ -373,6 +438,24 @@ async function showGameMenu(type) {
             <span class="text-blue-400 font-mono">${p.score}</span>
         </div>`).join('');
 
+    let actionButton = '';
+    let userStatusHtml = '';
+
+    if(localStorage.getItem('discord_token')) {
+        userStatusHtml = `<div class="flex flex-col items-center gap-2 mb-4">
+            <div class="text-green-400 font-bold text-lg">Logged as: ${playerName}</div>
+            <button onclick="logoutDiscord()" class="text-red-400 text-xs hover:text-red-300 underline">${t.logout}</button>
+        </div>`;
+        actionButton = `<button onclick="${onclick}" class="bg-gradient-to-r from-blue-600 to-violet-600 hover:scale-105 transition text-white text-xl font-bold py-4 px-12 rounded-2xl shadow-xl shadow-blue-600/20">${t.play}</button>`;
+    } else {
+        userStatusHtml = `<div class="text-slate-400 text-sm mb-4 italic">Login with Discord to play!</div>`;
+        actionButton = `<button onclick="loginWithDiscord()" class="bg-[#5865F2] hover:bg-[#4752C4] text-white px-8 py-4 rounded-2xl font-bold transition flex items-center justify-center gap-3 shadow-xl shadow-indigo-500/20 mx-auto">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 13.48 13.48 0 0 0-1.063 2.192 18.19 18.19 0 0 0-4.57 0 13.48 13.48 0 0 0-1.066-2.192.074.074 0 0 0-.078-.037 19.736 19.736 0 0 0-4.885 1.515.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                ${t.loginDiscord}
+            </button>
+        `;
+    }
+
     const gamePanel = document.getElementById('gamePanel');
     gamePanel.innerHTML = `
         <div class="max-w-md mx-auto text-center animate-fadeIn">
@@ -380,9 +463,9 @@ async function showGameMenu(type) {
             <div class="glass p-6 rounded-3xl mb-6 border border-white/10">
                 <h3 class="text-blue-400 uppercase text-xs font-bold mb-4 tracking-widest">${t.leaderboard}</h3>
                 <div class="space-y-2 mb-6">${lbHtml}</div>
-                <div class="flex gap-2"><input type="text" id="nicknameInput" value="${playerName}" placeholder="${t.nickname}" class="bg-slate-950/50 border border-white/10 rounded-xl px-4 py-2 text-white text-center w-full outline-none focus:border-blue-500 transition"><button onclick="saveNickname()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl font-bold transition">${t.set}</button></div>
+                ${userStatusHtml}
             </div>
-            <button onclick="${onclick}" class="bg-gradient-to-r from-blue-600 to-violet-600 hover:scale-105 transition text-white text-xl font-bold py-4 px-12 rounded-2xl shadow-xl shadow-blue-600/20">${t.play}</button>
+            ${actionButton}
         </div>`;
 }
 
@@ -555,11 +638,4 @@ window.addEventListener('scroll', () => {
     }
 });
 
-document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); initOnlineCounter(); });
-
-
-
-
-
-
-
+document.addEventListener('DOMContentLoaded', () => { updateStaticTexts(); render(); initOnlineCounter(); checkDiscordAuth(); });
